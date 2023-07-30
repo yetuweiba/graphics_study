@@ -1,0 +1,8 @@
+
+computer_graphics_programming_in_opengl/.vs/
+computer_graphics_programming_in_opengl/chapter_2/x64/Debug/
+computer_graphics_programming_in_opengl/chapter_2/x64/Release/
+computer_graphics_programming_in_opengl/chapter_2/.vs/
+*.user
+*.pdb
+*.exe
