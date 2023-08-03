@@ -88,8 +88,8 @@ GLuint createShaderProgram()
     //    "out vec4 color; \n"
     //    "void main(void) \n"
     //    "{color = vec4(0.0, 0.0, 1.0, 1.0);}";
-    string vertShaderStr = readShaderSource("vertShader.glsl");
-    string fragShaderStr = readShaderSource("fragShader.glsl");
+    string vertShaderStr = readShaderSource("./vertShader.glsl");
+    string fragShaderStr = readShaderSource("./fragShader.glsl");
 
     const char* vshaderSource = vertShaderStr.c_str();
     const char* fshaderSource = fragShaderStr.c_str();
@@ -145,11 +145,31 @@ void init(GLFWwindow* window)
     glBindVertexArray(vao[0]);
 }
 
+float x = 0.0f;
+float inc = 0.01f;
+
 void display(GLFWwindow* window, double currTime)
 {
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     glUseProgram(renderingProgram);
-    glPointSize(30.f);
-    glDrawArrays(GL_POINTS, 0, 1);
+
+    x += inc;
+    if (x > 1.0f)
+    {
+        inc = -0.01f;
+    }
+    if (x < -1.0f)
+    {
+        inc = 0.01f;
+    }
+
+    GLuint offsetLoc = glGetUniformLocation(renderingProgram, "offset");
+    glProgramUniform1f(renderingProgram, offsetLoc, x);
+
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 int main()
