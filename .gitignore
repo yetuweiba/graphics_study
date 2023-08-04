@@ -6,3 +6,9 @@ computer_graphics_programming_in_opengl/chapter_2/.vs/
 *.user
 *.pdb
 *.exe
+*.recipe
+*.ilk
+*.log
+*.obj
+*.tlog
+*.idb
