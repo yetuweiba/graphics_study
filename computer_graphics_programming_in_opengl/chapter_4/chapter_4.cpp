@@ -65,6 +65,7 @@ void init(GLFWwindow* window)
 void display(GLFWwindow* window, double currTime)
 {
     glClear(GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(renderingProgram);
 
     mvLoc = glGetUniformLocation(renderingProgram, "mv_matrix");
