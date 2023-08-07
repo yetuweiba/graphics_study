@@ -22,7 +22,7 @@ GLuint vbo[numVBOs];
 GLuint mvLoc, projLoc;
 int width, height;
 float aspect;
-glm::mat4 pMat, vMat, mMat, mvMat;
+glm::mat4 pMat, vMat, mMat, rMat, tMat, mvMat;
 
 void setupVertices(void)
 {
@@ -77,7 +77,13 @@ void display(GLFWwindow* window, double currTime)
     pMat = glm::perspective(1.0472f, aspect, 0.1f, 1000.0f);
 
     vMat = glm::translate(glm::mat4(1.0f), glm::vec3(-cameraX, -cameraY, -cameraZ));
-    mMat = glm::translate(glm::mat4(1.0f), glm::vec3(cubeLocX, cubeLocY, cubeLocZ));
+
+    tMat = glm::translate(glm::mat4(1.0f), glm::vec3(sin(0.35f * currTime) * 2.0f, cos(0.52f * currTime) * 2.0f, sin(0.7f * currTime) * 2.0f));
+    rMat = glm::rotate(glm::mat4(1.0f), 1.75f * (float)currTime, glm::vec3(0.0f, 1.0f, 0.0f));
+    rMat = glm::rotate(rMat, 1.75f * (float)currTime, glm::vec3(1.0f, 0.0f, 0.0f));
+    rMat = glm::rotate(rMat, 1.75f * (float)currTime, glm::vec3(0.0f, 0.0f, 1.0f));
+
+    mMat = tMat * rMat;
     mvMat = vMat * mMat;
 
     glUniformMatrix4fv(mvLoc, 1, GL_FALSE, glm::value_ptr(mvMat));
