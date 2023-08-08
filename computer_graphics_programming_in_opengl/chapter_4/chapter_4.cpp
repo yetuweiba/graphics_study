@@ -19,7 +19,7 @@ GLuint renderingProgram;
 GLuint vao[numVAOs];
 GLuint vbo[numVBOs];
 
-GLuint mvLoc, projLoc;
+GLuint vLoc, projLoc, tfLoc;
 int width, height;
 float aspect;
 glm::mat4 pMat, vMat, mMat, rMat, tMat, mvMat;
@@ -68,7 +68,7 @@ void display(GLFWwindow* window, double currTime)
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(renderingProgram);
 
-    mvLoc = glGetUniformLocation(renderingProgram, "mv_matrix");
+    vLoc = glGetUniformLocation(renderingProgram, "v_matrix");
     projLoc = glGetUniformLocation(renderingProgram, "proj_matrix");
 
     glfwGetFramebufferSize(window, &width, &height);
@@ -86,8 +86,12 @@ void display(GLFWwindow* window, double currTime)
     mMat = tMat * rMat;
     mvMat = vMat * mMat;
 
-    glUniformMatrix4fv(mvLoc, 1, GL_FALSE, glm::value_ptr(mvMat));
+    glUniformMatrix4fv(vLoc, 1, GL_FALSE, glm::value_ptr(vMat));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(pMat));
+
+    float timeFactor = (float)currTime;
+    tfLoc = glGetUniformLocation(renderingProgram, "tf");
+    glUniform1f(tfLoc, timeFactor);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -95,7 +99,7 @@ void display(GLFWwindow* window, double currTime)
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, 24);
 
 
 }
