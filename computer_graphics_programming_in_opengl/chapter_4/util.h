@@ -13,3 +13,5 @@ void printProgramLog(int prog);
 bool checkOpenGLError();
 
 GLuint createShaderProgram();
+
+GLuint loadTexture(const char* path);

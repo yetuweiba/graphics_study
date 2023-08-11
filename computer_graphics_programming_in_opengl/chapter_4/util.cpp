@@ -2,6 +2,7 @@
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "SOIL2/SOIL2.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -124,4 +125,16 @@ GLuint createShaderProgram()
     }
 
     return vfProgram;
+}
+
+GLuint loadTexture(const char* path)
+{
+    GLuint textureID;
+    textureID = SOIL_load_OGL_texture(path, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    if (textureID == 0)
+    {
+        cout << "could not find texture: " << path << endl;
+    }
+
+    return textureID;
 }
