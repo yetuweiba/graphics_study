@@ -57,17 +57,23 @@ void init(GLFWwindow* window)
     renderingProgram = createShaderProgram();
     cameraX = 0.0f;
     cameraY = 0.0f;
-    cameraZ = 3.0f;
+    cameraZ = 4.0f;
 
     cubeLocX = 0.0f;
     cubeLocY = -2.0f;
     cubeLocZ = 0.0f;
 
-    pyrLocX = 1.0f;
-    pyrLocY = 2.0f;
-    pyrLocZ = 1.0f;
+    pyrLocX = 0.0f;
+    pyrLocY = 0.0f;
+    pyrLocZ = 0.0f;
     setupVertices();
-    brickTexture = loadTexture("./111.png");
+
+    glfwGetFramebufferSize(window, &width, &height);
+    aspect = (float)width / (float)height;
+    // 1.0472 radians = 60 degrees
+    pMat = glm::perspective(1.0472f, aspect, 0.1f, 1000.0f);
+
+    brickTexture = loadTexture("./brick1.jpg");
 }
 
 void display(GLFWwindow* window, double currTime)
@@ -79,13 +85,13 @@ void display(GLFWwindow* window, double currTime)
     mvLoc = glGetUniformLocation(renderingProgram, "mv_matrix");
     projLoc = glGetUniformLocation(renderingProgram, "proj_matrix");
 
-    glfwGetFramebufferSize(window, &width, &height);
-    aspect = (float)width / (float)height;
-    // 1.0472 radians = 60 degrees
-    pMat = glm::perspective(1.0472f, aspect, 0.1f, 1000.0f);
-
     vMat = glm::translate(glm::mat4(1.0f), glm::vec3(-cameraX, -cameraY, -cameraZ));
-    mMat = glm::translate(glm::mat4(1.0f), glm::vec3(-cameraX, -cameraY, -cameraZ));
+    mMat = glm::translate(glm::mat4(1.0f), glm::vec3(pyrLocX, pyrLocY, pyrLocZ));
+
+    mMat = glm::rotate(mMat, -0.45f, glm::vec3(1.0f, 0.0f, 0.0f));
+    mMat = glm::rotate(mMat, 0.61f, glm::vec3(0.0f, 1.0f, 0.0f));
+    mMat = glm::rotate(mMat, -0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+
     mvMat = vMat * mMat;
 
     glUniformMatrix4fv(mvLoc, 1, GL_FALSE, glm::value_ptr(mvMat));
