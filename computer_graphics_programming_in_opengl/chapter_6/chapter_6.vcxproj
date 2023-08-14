@@ -146,10 +146,12 @@
     <ClCompile Include="..\chapter_4\util.cpp" />
     <ClCompile Include="chapter_6.cpp" />
     <ClCompile Include="sphere.cpp" />
+    <ClCompile Include="torus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\chapter_4\util.h" />
     <ClInclude Include="sphere.h" />
+    <ClInclude Include="torus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

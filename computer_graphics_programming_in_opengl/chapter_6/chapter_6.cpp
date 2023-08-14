@@ -6,12 +6,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
-#include "sphere.h"
+#include "torus.h"
 
 #include "../chapter_4/util.h"
 
 #define numVAOs 1
-#define numVBOs 3
+#define numVBOs 4
 
 float cameraX, cameraY, cameraZ;
 float cubeLocX, cubeLocY, cubeLocZ;
@@ -26,28 +26,29 @@ float aspect;
 glm::mat4 pMat, vMat, mMat, rMat, tMat, mvMat;
 
 GLuint brickTexture;
-
-Sphere mySphere(48);
+float rotAmt = 0.0f;
+Torus myTorus(0.5f, 0.2f, 48);
 
 void setupVertices()
 {
-    std::vector<int> ind = mySphere.getIndices();
-    std::vector<glm::vec3> vert = mySphere.getVertices();
-    std::vector<glm::vec2> tex = mySphere.getTexCoords();
-    std::vector<glm::vec3> norm = mySphere.getNormals();
-    std::vector<float> pvalues; // 顶点位置
-    std::vector<float> tvalues; // 纹理坐标
-    std::vector<float> nvalues; // 法向量
-    int numIndices = mySphere.getNumIndices();
-    for (int i = 0; i < numIndices; i++) {
-        pvalues.push_back((vert[ind[i]]).x);
-        pvalues.push_back((vert[ind[i]]).y);
-        pvalues.push_back((vert[ind[i]]).z);
-        tvalues.push_back((tex[ind[i]]).s);
-        tvalues.push_back((tex[ind[i]]).t);
-        nvalues.push_back((norm[ind[i]]).x);
-        nvalues.push_back((norm[ind[i]]).y);
-        nvalues.push_back((norm[ind[i]]).z);
+    std::vector<int> ind = myTorus.getIndices();
+    std::vector<glm::vec3> vert = myTorus.getVertices();
+    std::vector<glm::vec2> tex = myTorus.getTexCoords();
+    std::vector<glm::vec3> norm = myTorus.getNormals();
+
+    std::vector<float> pvalues;
+    std::vector<float> tvalues;
+    std::vector<float> nvalues;
+
+    for (int i = 0; i < myTorus.getNumVertices(); i++) {
+        pvalues.push_back(vert[i].x);
+        pvalues.push_back(vert[i].y);
+        pvalues.push_back(vert[i].z);
+        tvalues.push_back(tex[i].s);
+        tvalues.push_back(tex[i].t);
+        nvalues.push_back(norm[i].x);
+        nvalues.push_back(norm[i].y);
+        nvalues.push_back(norm[i].z);
     }
 
     glGenVertexArrays(1, vao);
@@ -62,6 +63,9 @@ void setupVertices()
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
     glBufferData(GL_ARRAY_BUFFER, nvalues.size() * 4, &nvalues[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, ind.size() * 4, &ind[0], GL_STATIC_DRAW);
 }
 
 void init(GLFWwindow* window)
@@ -123,7 +127,8 @@ void display(GLFWwindow* window, double currTime)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    glDrawArrays(GL_TRIANGLES, 0, mySphere.getNumIndices());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
+    glDrawElements(GL_TRIANGLES, myTorus.getIndices().size(), GL_UNSIGNED_INT, 0);
 }
 
 int main()
