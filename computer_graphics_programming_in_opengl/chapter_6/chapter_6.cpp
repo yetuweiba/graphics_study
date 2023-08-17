@@ -20,7 +20,7 @@ GLuint renderingProgram;
 GLuint vao[numVAOs];
 GLuint vbo[numVBOs];
 
-GLuint mvLoc, projLoc, tfLoc;
+GLuint mvLoc, projLoc, tfLoc, nLoc;
 int width, height;
 float aspect;
 glm::mat4 pMat, vMat, mMat, rMat, tMat, mvMat;
