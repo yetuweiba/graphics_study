@@ -12,7 +12,7 @@ void printProgramLog(int prog);
 
 bool checkOpenGLError();
 
-GLuint createShaderProgram();
+GLuint createShaderProgram(const char* pVertShader, const char* pFragShader);
 
 GLuint loadTexture(const char* path);
 

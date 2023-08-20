@@ -88,7 +88,7 @@ void setupVertices()
 
 void init(GLFWwindow* window)
 {
-    renderingProgram = createShaderProgram();
+    renderingProgram = createShaderProgram("./phone/vertShader.glsl", "./phone/fragShader.glsl");
     cameraX = 0.0f;
     cameraY = 0.0f;
     cameraZ = 1.0f;
