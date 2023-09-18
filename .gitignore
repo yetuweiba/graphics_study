@@ -12,3 +12,5 @@ computer_graphics_programming_in_opengl/chapter_2/.vs/
 *.obj
 *.tlog
 *.idb
+*.db
+learn_opengl/.vs/
