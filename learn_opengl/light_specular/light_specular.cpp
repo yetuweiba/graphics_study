@@ -161,6 +161,8 @@ int main()
         cubeShader.setMat4("projection", projection);
         cubeShader.setMat4("view", view);
         model = glm::mat4(1.0f);
+        lightPos.x = 1.0f + sin(glfwGetTime()) * 2;
+        lightPos.y = 1.0f * sin(glfwGetTime()) * 2;
         model = glm::translate(model, lightPos);
         model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
         cubeShader.setMat4("model", model);
